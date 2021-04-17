@@ -30,8 +30,8 @@ class UserController {
 					res.status(200).json({ success: true, access_token });
 				} else {
 					throw {
-						status: 400,
-						message: "Kombinasi email dan password salah",
+						name: "InvalidEmailAndPassword",
+						message: "Invalid email and password",
 					};
 				}
 			})
