@@ -189,7 +189,8 @@ Returns new todo.
           "status": "<todo status>",
           "due_date": "<todo due_date>",
           "updatedAt": "2021-04-15T00:22:11.114Z",
-          "createdAt": "2021-04-15T00:22:11.114Z"
+          "createdAt": "2021-04-15T00:22:11.114Z",
+          "UserId": <todo UserId>
       }
     }
     ```
@@ -426,8 +427,8 @@ Returns editted todo.
 
     OR
 
-    - **Code:** 404 <br />
-      **Content:**
+  - **Code:** 404 <br />
+    **Content:**
 
     ```
     {
@@ -439,8 +440,8 @@ Returns editted todo.
 
     OR
 
-    - **Code:** 401 <br />
-      **Content:**
+  - **Code:** 401 <br />
+    **Content:**
 
     ```
     {
@@ -452,8 +453,8 @@ Returns editted todo.
 
     OR
 
-    - **Code:** 401 <br />
-      **Content:**
+  - **Code:** 401 <br />
+    **Content:**
 
     ```
     {
@@ -544,8 +545,8 @@ Returns editted todo.
 
     OR
 
-    - **Code:** 404 <br />
-      **Content:**
+  - **Code:** 404 <br />
+    **Content:**
 
     ```
     {
@@ -557,8 +558,8 @@ Returns editted todo.
 
     OR
 
-    - **Code:** 401 <br />
-      **Content:**
+  - **Code:** 401 <br />
+    **Content:**
 
     ```
     {
@@ -570,8 +571,8 @@ Returns editted todo.
 
     OR
 
-    - **Code:** 401 <br />
-      **Content:**
+  - **Code:** 401 <br />
+    **Content:**
 
     ```
     {
@@ -638,39 +639,39 @@ Returns editted todo.
   - **Code:** 404 <br />
     **Content:**
 
-  ```
-  {
-    "errors": [
-        "Task Not Found"
-    ]
-  }
-  ```
+    ```
+    {
+      "errors": [
+          "Task Not Found"
+      ]
+    }
+    ```
 
   OR
 
   - **Code:** 401 <br />
     **Content:**
 
-  ```
-  {
-      "errors": [
-          "Missing Access Token"
-      ]
-  }
-  ```
+    ```
+    {
+        "errors": [
+            "Missing Access Token"
+        ]
+    }
+    ```
 
   OR
 
   - **Code:** 401 <br />
     **Content:**
 
-  ```
-  {
-      "errors": [
-          "Invalid Token"
-      ]
-  }
-  ```
+    ```
+    {
+        "errors": [
+            "Invalid Token"
+        ]
+    }
+    ```
 
   OR
 
