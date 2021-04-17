@@ -21,7 +21,7 @@ class UserController {
 			},
 		})
 			.then((user) => {
-				let match = bcrypt.compareSync(password, user.password);
+				let match = bcrypt.compareSync(password, user ? user.password : "");
 				if (user && match) {
 					const access_token = jwt.sign(
 						{ id: user.id },

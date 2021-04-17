@@ -6,106 +6,183 @@ http://localhost:3000
 
 # Todos
 
-***Add***
-----
-  Returns new todo.
+## **_Register_**
 
-* **URL**
+Returns new user.
 
-  /movies
+- **URL**
 
-* **Method:**
+  /register
+
+- **Method:**
 
   `POST`
-  
-*  **URL Params**
 
-    None
+- **URL Params**
 
-* **Data Params**
+  None
 
-   **Required:**
-  ````
+- **Data Params**
+
+  **Required:**
+
+  ```
+    {
+      email: req.body.email,
+      password: req.body.password
+    }
+  ```
+
+- **Success Response:**
+
+  - **Code:** 201 <br />
+    **Content:**
+
+    ```
+    {
+        "success": true,
+        "data": {
+            "id": <user id>,
+            "email": <user email>
+        }
+    }
+    ```
+
+- **Error Response:**
+
+  - **Code:** 400 <br />
+    **Content:**
+    ```
+    { errors : "SequelizeValidationError" }
+    ```
+
+  OR
+
+  - **Code:** 500 <br />
+
+- **Sample Call:**
+
+  ```javascript
+  $.ajax({
+  	method: "POST",
+  	url: `http://localhost:3000/register`,
+  	data: {
+  		email,
+  		password,
+  	},
+  });
+  ```
+
+---
+
+## **_Login_**
+
+Returns new user.
+
+- **URL**
+
+  /login
+
+- **Method:**
+
+  `POST`
+
+- **URL Params**
+
+  None
+
+- **Data Params**
+
+  **Required:**
+
+  ```
+    {
+      email: req.body.email,
+      password: req.body.password
+    }
+  ```
+
+- **Success Response:**
+
+  - **Code:** 200 <br />
+    **Content:**
+
+    ```
+    {
+        "success": true,
+        "access_token": <user access_token>
+    }
+    ```
+
+- **Error Response:**
+
+  - **Code:** 400 <br />
+    **Content:**
+    ```
+    {
+      "errors": [
+          "Invalid email and password"
+      ]
+    }
+    ```
+
+  OR
+
+  - **Code:** 500 <br />
+
+- **Sample Call:**
+
+  ```javascript
+  $.ajax({
+  	method: "POST",
+  	url: `http://localhost:3000/login`,
+  	data: {
+  		email,
+  		password,
+  	},
+  });
+  ```
+
+---
+
+## **_Add_**
+
+Returns new todo.
+
+- **URL**
+
+  /todos
+
+- **Method:**
+
+  `POST`
+
+- **URL Params**
+
+  None
+
+- **Data Params**
+
+  **Required:**
+
+  ```
     {
       title: req.body.title,
       description: req.body.description,
       status: req.body.status,
       due_date: req.body.due_date,
     }
-  ````
-
-* **Success Response:**
-
-  * **Code:** 201 <br />
-    **Content:** 
-    ```
-    {
-        "id": 1,
-        "title": "<todo title>",
-        "description": "<todo description>",
-        "status": "<todo status>",
-        "due_date": "<todo due_date>",
-        "updatedAt": "2021-04-15T00:22:11.114Z",
-        "createdAt": "2021-04-15T00:22:11.114Z"
-    }
-    ```
-
-
-* **Error Response:**
-
-  * **Code:** 400 <br />
-    **Content:** 
-    ```
-    { error : "SequelizeValidationError" }
-    ```
-
-  OR
-
-  * **Code:** 500 <br />
-
-* **Sample Call:**
-
-  ```javascript
-    $.ajax({
-      method: 'POST',
-      url: `http://localhost:3000/todos`,
-      headers: {
-        token: localStorage.getItem('token')
-      },
-      data: {
-        title, description, status, due_date
-      }
-    })
   ```
 
-----
-***Display All***
-----
-  Returns all todos.
+- **Success Response:**
 
-* **URL**
+  - **Code:** 201 <br />
+    **Content:**
 
-  /todos
-
-* **Method:**
-
-  `GET`
-  
-*  **URL Params**
-
-  None
-
-* **Data Params**
-
-  None
-
-* **Success Response:**
-
-  * **Code:** 200 <br />
-    **Content:** 
     ```
-    [
-      {
+    {
+      "sucess": true,
+      "data": {
           "id": 1,
           "title": "<todo title>",
           "description": "<todo description>",
@@ -113,302 +190,500 @@ http://localhost:3000
           "due_date": "<todo due_date>",
           "updatedAt": "2021-04-15T00:22:11.114Z",
           "createdAt": "2021-04-15T00:22:11.114Z"
-      },
-      {
-          "id": 2,
-          "title": "<todo title>",
-          "description": "<todo description>",
-          "status": "<todo status>",
-          "due_date": "<todo due_date>",
-          "updatedAt": "2021-04-17T00:22:11.114Z",
-          "createdAt": "2021-04-17T00:22:11.114Z"
       }
-    ]
+    }
     ```
 
+- **Error Response:**
 
-* **Error Response:**
+  - **Code:** 400 <br />
+    **Content:**
+    ```
+    { errors : "SequelizeValidationError" }
+    ```
 
-  * **Code:** 500 <br />
+  OR
 
+  - **Code:** 500 <br />
 
-* **Sample Call:**
+- **Sample Call:**
 
   ```javascript
   $.ajax({
-    method: 'GET',
-    url: 'http://localhost:3000/todos',
-    headers: {
-      token: localStorage.getItem('token')
-    }
-  })
-  
+  	method: "POST",
+  	url: `http://localhost:3000/todos`,
+  	headers: {
+  		token: localStorage.getItem("token"),
+  	},
+  	data: {
+  		title,
+  		description,
+  		status,
+  		due_date,
+  	},
+  });
   ```
-----
-***Display One***
-----
-  Returns one todos.
 
-* **URL**
+---
 
-  /todos/:id
+## **_Display All_**
 
-* **Method:**
+Returns all todos.
+
+- **URL**
+
+  /todos
+
+- **Method:**
 
   `GET`
-  
-*  **URL Params**
 
-  id
+- **URL Params**
 
-* **Data Params**
+None
+
+- **Data Params**
 
   None
 
-* **Success Response:**
+- **Success Response:**
 
-  * **Code:** 200 <br />
-    **Content:** 
+  - **Code:** 200 <br />
+    **Content:**
     ```
     {
+      "success": true
+      data: [
+        {
+            "id": 1,
+            "title": "<todo title>",
+            "description": "<todo description>",
+            "status": "<todo status>",
+            "due_date": "<todo due_date>",
+            "updatedAt": "2021-04-15T00:22:11.114Z",
+            "createdAt": "2021-04-15T00:22:11.114Z",
+            "UserId": <todo UserId>
+        },
+        {
+            "id": 2,
+            "title": "<todo title>",
+            "description": "<todo description>",
+            "status": "<todo status>",
+            "due_date": "<todo due_date>",
+            "updatedAt": "2021-04-17T00:22:11.114Z",
+            "createdAt": "2021-04-17T00:22:11.114Z",
+            "UserId": <todo UserId>
+        }
+      ]
+    }
+    ```
+
+- **Error Response:**
+
+  - **Code:** 500 <br />
+
+- **Sample Call:**
+
+  ```javascript
+  $.ajax({
+  	method: "GET",
+  	url: "http://localhost:3000/todos",
+  	headers: {
+  		token: localStorage.getItem("token"),
+  	},
+  });
+  ```
+
+---
+
+## **_Display One_**
+
+Returns one todos.
+
+- **URL**
+
+  /todos/:id
+
+- **Method:**
+
+  `GET`
+
+- **URL Params**
+
+id
+
+- **Data Params**
+
+  None
+
+- **Success Response:**
+
+  - **Code:** 200 <br />
+    **Content:**
+    ```
+    {
+      "success": true,
+      data: {
         "id": 1,
         "title": "<todo title>",
         "description": "<todo description>",
         "status": "<todo status>",
         "due_date": "<todo due_date>",
         "updatedAt": "2021-04-15T00:22:11.114Z",
-        "createdAt": "2021-04-15T00:22:11.114Z"
+        "createdAt": "2021-04-15T00:22:11.114Z",
+        "UserId": <todo UserId>
+      }
     }
     ```
 
+- **Error Response:**
 
-* **Error Response:**
-
-  * **Code:** 404 <br />
-    **Content:** 
+  - **Code:** 404 <br />
+    **Content:**
     ```
-    { message : "Error not found" }
+    {
+      "errors": [
+          "Task Not Found"
+      ]
+    }
     ```
 
-  OR  
+  OR
 
-  * **Code:** 500 <br />
+  - **Code:** 500 <br />
 
-
-* **Sample Call:**
+- **Sample Call:**
 
   ```javascript
   $.ajax({
-    method: 'GET',
-    url: 'http://localhost:3000/todos/1',
-    headers: {
-      token: localStorage.getItem('token')
-    }
-  })
-  
+  	method: "GET",
+  	url: "http://localhost:3000/todos/1",
+  	headers: {
+  		token: localStorage.getItem("token"),
+  	},
+  });
   ```
-----
-***Edit***
-----
-  Returns editted todo.
 
-* **URL**
+---
+
+## **_Edit_**
+
+Returns editted todo.
+
+- **URL**
 
   /movies/:id
 
-* **Method:**
+- **Method:**
 
   `PUT`
-  
-*  **URL Params**
 
-    id
+- **URL Params**
 
-* **Data Params**
+  id
 
-   **Required:**
-  ````
+- **Data Params**
+
+  **Required:**
+
+  ```
     {
       title: req.body.title,
       description: req.body.description,
       status: req.body.status,
       due_date: req.body.due_date,
     }
-  ````
+  ```
 
-* **Success Response:**
+- **Success Response:**
 
-  * **Code:** 201 <br />
-    **Content:** 
+  - **Code:** 201 <br />
+    **Content:**
     ```
     {
+      "success": true,
+      "data": {
         "id": 1,
         "title": "<todo title>",
         "description": "<todo description>",
         "status": "<todo status>",
         "due_date": "<todo due_date>",
         "updatedAt": "2021-04-15T00:22:11.114Z",
-        "createdAt": "2021-04-15T00:22:11.114Z"
+        "createdAt": "2021-04-15T00:22:11.114Z",
+        "UserId": <todo UserId>
+      }
     }
     ```
 
+- **Error Response:**
 
-* **Error Response:**
+  - **Code:** 400 <br />
+    **Content:**
 
-  * **Code:** 400 <br />
-    **Content:** 
     ```
     { error : "SequelizeValidationError" }
     ```
-  OR
-    * **Code:** 404 <br />
-    **Content:** 
-    ```
-    { message : "Error not found" }
-    ```
-  OR
 
-  * **Code:** 500 <br />
+    OR
 
-* **Sample Call:**
+    - **Code:** 404 <br />
+      **Content:**
+
+    ```
+    {
+      "errors": [
+          "Task Not Found"
+      ]
+    }
+    ```
+
+    OR
+
+    - **Code:** 401 <br />
+      **Content:**
+
+    ```
+    {
+        "errors": [
+            "Missing Access Token"
+        ]
+    }
+    ```
+
+    OR
+
+    - **Code:** 401 <br />
+      **Content:**
+
+    ```
+    {
+        "errors": [
+            "Invalid Token"
+        ]
+    }
+    ```
+
+    OR
+
+  - **Code:** 500 <br />
+
+- **Sample Call:**
 
   ```javascript
-    $.ajax({
-      method: 'PUT',
-      url: `http://localhost:3000/todos/1`,
-      headers: {
-        token: localStorage.getItem('token')
-      },
-      data: {
-        title, description, status, due_date
-      }
-    })
+  $.ajax({
+  	method: "PUT",
+  	url: `http://localhost:3000/todos/1`,
+  	headers: {
+  		token: localStorage.getItem("token"),
+  	},
+  	data: {
+  		title,
+  		description,
+  		status,
+  		due_date,
+  	},
+  });
   ```
-----
-***Update Status***
-----
-  Returns editted todo.
 
-* **URL**
+---
+
+## **_Update Status_**
+
+Returns editted todo.
+
+- **URL**
 
   /movies/:id
 
-* **Method:**
+- **Method:**
 
   `PATCH`
-  
-*  **URL Params**
 
-    id
+- **URL Params**
 
-* **Data Params**
+  id
 
-   **Required:**
-  ````
+- **Data Params**
+
+  **Required:**
+
+  ```
     {
       status: req.body.status
     }
-  ````
+  ```
 
-* **Success Response:**
+- **Success Response:**
 
-  * **Code:** 201 <br />
-    **Content:** 
+  - **Code:** 201 <br />
+    **Content:**
     ```
     {
+      "success": true,
+      "data": {
         "id": 1,
         "title": "<todo title>",
         "description": "<todo description>",
         "status": "<todo status>",
         "due_date": "<todo due_date>",
         "updatedAt": "2021-04-15T00:22:11.114Z",
-        "createdAt": "2021-04-15T00:22:11.114Z"
+        "createdAt": "2021-04-15T00:22:11.114Z",
+        "UserId: <todo UserId>
+      }
     }
     ```
 
+- **Error Response:**
 
-* **Error Response:**
+  - **Code:** 400 <br />
+    **Content:**
 
-  * **Code:** 400 <br />
-    **Content:** 
     ```
     { error : "SequelizeValidationError" }
     ```
-  OR
-    * **Code:** 404 <br />
-    **Content:** 
-    ```
-    { message : "Error not found" }
-    ```
-  OR
 
-  * **Code:** 500 <br />
+    OR
 
-* **Sample Call:**
+    - **Code:** 404 <br />
+      **Content:**
 
-  ```javascript
-    $.ajax({
-      method: 'PATCH',
-      url: `http://localhost:3000/todos/1`,
-      headers: {
-        token: localStorage.getItem('token')
-      },
-      data: {
-        status
-      }
-    })
-  ```
-----
-***Delete***
-----
-  Returns editted todo.
-
-* **URL**
-
-  /movies/:id
-
-* **Method:**
-
-  `DELETE`
-  
-*  **URL Params**
-
-    id
-
-* **Data Params**
-    
-    None
-
-* **Success Response:**
-
-  * **Code:** 200 <br />
-    **Content:** 
     ```
     {
-      "message": "todo success to delete"
+      "errors": [
+          "Task Not Found"
+      ]
     }
     ```
 
+    OR
 
-* **Error Response:**
+    - **Code:** 401 <br />
+      **Content:**
 
-    * **Code:** 404 <br />
-    **Content:** 
     ```
-    { message : "Error not found" }
+    {
+        "errors": [
+            "Missing Access Token"
+        ]
+    }
     ```
-  OR
 
-  * **Code:** 500 <br />
+    OR
 
-* **Sample Call:**
+    - **Code:** 401 <br />
+      **Content:**
+
+    ```
+    {
+        "errors": [
+            "Invalid Token"
+        ]
+    }
+    ```
+
+    OR
+
+  - **Code:** 500 <br />
+
+- **Sample Call:**
 
   ```javascript
-    $.ajax({
-      method: 'DELETE',
-      url: `http://localhost:3000/todos/1`,
-      headers: {
-        token: localStorage.getItem('token')
-      }
-    })
+  $.ajax({
+  	method: "PATCH",
+  	url: `http://localhost:3000/todos/1`,
+  	headers: {
+  		token: localStorage.getItem("token"),
+  	},
+  	data: {
+  		status,
+  	},
+  });
+  ```
+
+---
+
+## **_Delete_**
+
+Returns editted todo.
+
+- **URL**
+
+  /movies/:id
+
+- **Method:**
+
+  `DELETE`
+
+- **URL Params**
+
+  id
+
+- **Data Params**
+
+  None
+
+- **Success Response:**
+
+  - **Code:** 200 <br />
+    **Content:**
+    ```
+    {
+      "success": true
+      "message": "Task deleted successfully"
+    }
+    ```
+
+- **Error Response:**
+
+  - **Code:** 404 <br />
+    **Content:**
+
+  ```
+  {
+    "errors": [
+        "Task Not Found"
+    ]
+  }
+  ```
+
+  OR
+
+  - **Code:** 401 <br />
+    **Content:**
+
+  ```
+  {
+      "errors": [
+          "Missing Access Token"
+      ]
+  }
+  ```
+
+  OR
+
+  - **Code:** 401 <br />
+    **Content:**
+
+  ```
+  {
+      "errors": [
+          "Invalid Token"
+      ]
+  }
+  ```
+
+  OR
+
+  - **Code:** 500 <br />
+
+- **Sample Call:**
+
+  ```javascript
+  $.ajax({
+  	method: "DELETE",
+  	url: `http://localhost:3000/todos/1`,
+  	headers: {
+  		token: localStorage.getItem("token"),
+  	},
+  });
   ```
