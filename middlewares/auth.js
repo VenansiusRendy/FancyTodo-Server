@@ -7,7 +7,10 @@ const authentication = (req, res, next) => {
 			.status(401)
 			.json({ success: false, message: "Missing access token" });
 	try {
-		const decoded = jwt.verify(req.headers.access_token, "Secret");
+		const decoded = jwt.verify(
+			req.headers.access_token,
+			process.env.JWT_SECRET
+		);
 		req.user_id = decoded.id;
 		next();
 	} catch (error) {

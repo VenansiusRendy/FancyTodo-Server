@@ -3,17 +3,17 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 class UserController {
-	static register(req, res) {
+	static register(req, res, next) {
 		const { email, password } = req.body;
 		User.create({ email, password })
 			.then((user) =>
 				res
 					.status(201)
-					.json({ status: "Success", data: { id: user.id, email: user.email } })
+					.json({ success: true, data: { id: user.id, email: user.email } })
 			)
-			.catch((err) => res.status(400).json(err));
+			.catch((err) => next(err));
 	}
-	static login(req, res) {
+	static login(req, res, next) {
 		const { email, password } = req.body;
 		User.findOne({
 			where: {
@@ -23,7 +23,10 @@ class UserController {
 			.then((user) => {
 				let match = bcrypt.compareSync(password, user.password);
 				if (user && match) {
-					const access_token = jwt.sign({ id: user.id }, "Secret");
+					const access_token = jwt.sign(
+						{ id: user.id },
+						process.env.JWT_SECRET
+					);
 					res.status(200).json({ success: true, access_token });
 				} else {
 					throw {
@@ -32,11 +35,7 @@ class UserController {
 					};
 				}
 			})
-			.catch((err) =>
-				res
-					.status(err.status || 500)
-					.json({ success: false, error: err.message || err })
-			);
+			.catch((err) => next(err));
 	}
 }
 
