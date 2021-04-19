@@ -9,10 +9,4 @@ app.use(express.urlencoded({ extended: true }));
 app.use(routes);
 app.use(errorHandler);
 
-app.listen(port, (err) => {
-	if (err) {
-		console.log(err);
-	} else {
-		console.log(`Applikasi jalan di port ${port}`);
-	}
-});
+app.listen(port, () => console.log(`Applikasi jalan di port ${port}`));

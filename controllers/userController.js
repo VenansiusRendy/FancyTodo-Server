@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 class UserController {
 	static register(req, res, next) {
 		const { email, password } = req.body;
+
 		User.create({ email, password })
 			.then((user) =>
 				res
@@ -13,8 +14,10 @@ class UserController {
 			)
 			.catch((err) => next(err));
 	}
+
 	static login(req, res, next) {
 		const { email, password } = req.body;
+
 		User.findOne({
 			where: {
 				email,
@@ -22,18 +25,15 @@ class UserController {
 		})
 			.then((user) => {
 				let match = bcrypt.compareSync(password, user ? user.password : "");
-				if (user && match) {
-					const access_token = jwt.sign(
-						{ id: user.id },
-						process.env.JWT_SECRET
-					);
-					res.status(200).json({ success: true, access_token });
-				} else {
+
+				if (!user || !match)
 					throw {
 						name: "InvalidEmailAndPassword",
 						message: "Invalid email and password",
 					};
-				}
+
+				const access_token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+				res.status(200).json({ success: true, access_token });
 			})
 			.catch((err) => next(err));
 	}

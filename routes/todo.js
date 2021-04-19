@@ -5,6 +5,7 @@ const router = require("express").Router();
 
 router.get("/", TodoController.read);
 router.post("/", TodoController.add);
+
 router.get("/:id", todoAuthorization, TodoController.readById);
 router.put("/:id", todoAuthorization, TodoController.update);
 router.patch("/:id", todoAuthorization, TodoController.updateStatus);
