@@ -18,14 +18,26 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			email: {
 				type: DataTypes.STRING,
-				unique: true,
+				allowNull: false,
+				validate: {
+					notNull: true,
+					notEmpty: true,
+				},
 			},
-			password: DataTypes.STRING,
+			password: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					notNull: true,
+					notEmpty: true,
+				},
+			},
 		},
 		{
 			hooks: {
 				beforeCreate(user) {
-					user.password = bcrypt.hashSync(user.password, 10);
+					const salt = bcrypt.genSaltSync(10);
+					user.password = bcrypt.hashSync(user.password, salt);
 					return user;
 				},
 			},

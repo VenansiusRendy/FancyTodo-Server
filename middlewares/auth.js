@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { Todo } = require("../models");
+const { Todo, User } = require("../models");
 
 const authentication = (req, res, next) => {
 	if (!req.headers.access_token)
@@ -13,13 +13,18 @@ const authentication = (req, res, next) => {
 			process.env.JWT_SECRET
 		);
 		req.user_id = decoded.id;
-		next();
 	} catch (error) {
 		next({
 			name: "InvalidToken",
 			message: "Invalid Token",
 		});
 	}
+	User.findByPk(req.user_id)
+		.then((user) => {
+			if (!user) throw { name: "LoginFail" };
+			next();
+		})
+		.catch((err) => next(err));
 };
 
 const todoAuthorization = (req, res, next) => {
