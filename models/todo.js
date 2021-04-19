@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const dayjs = require("dayjs");
 module.exports = (sequelize, DataTypes) => {
 	class Todo extends Model {
 		/**
@@ -44,14 +45,10 @@ module.exports = (sequelize, DataTypes) => {
 				validate: {
 					notEmpty: true,
 					notNull: true,
-					isAfter: new Date(new Date().getDate - 1),
-					// date(value) {
-					// 	const dueDate = new Date(value).getTime();
-					// 	const today = new Date().getTime();
-					// 	if (dueDate < today) {
-					// 		throw new Error("Due Date Cannot Be Before Today");
-					// 	}
-					// },
+					date(value) {
+						if (!dayjs(value).isAfter(new Date()))
+							throw new Error("Due Date Must Be Greater Than Today");
+					},
 				},
 			},
 		},

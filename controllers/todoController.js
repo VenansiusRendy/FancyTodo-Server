@@ -28,7 +28,6 @@ class TodoController {
 		const todo = req.todo;
 		const keys = Object.keys(req.body);
 		keys.forEach((key) => {
-			console.log(req.body);
 			if (todo[key]) {
 				todo[key] = req.body[key];
 			}
