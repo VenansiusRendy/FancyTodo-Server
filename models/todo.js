@@ -19,7 +19,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					notEmpty: true,
+					notEmpty: {
+						args: true,
+						msg: "Title cannot be empty",
+					},
 					notNull: true,
 				},
 			},
@@ -27,7 +30,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					notEmpty: true,
+					notEmpty: {
+						args: true,
+						msg: "Description cannot be empty",
+					},
 					notNull: true,
 				},
 			},
@@ -35,7 +41,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					notEmpty: true,
+					notEmpty: {
+						args: true,
+						msg: "Status cannot be empty",
+					},
 					notNull: true,
 				},
 			},
@@ -43,7 +52,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.DATE,
 				allowNull: false,
 				validate: {
-					notEmpty: true,
+					notEmpty: {
+						args: true,
+						msg: "Due Date cannot be empty",
+					},
 					notNull: true,
 					date(value) {
 						if (!dayjs(value).isAfter(new Date()))
