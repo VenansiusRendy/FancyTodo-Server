@@ -1,4 +1,6 @@
 const { Todo, User } = require("../models");
+const axios = require("axios");
+const location = "Provinsi Bali";
 
 class TodoController {
 	static read(req, res, next) {
@@ -69,6 +71,31 @@ class TodoController {
 					.json({ success: true, message: "Task deleted successfully" });
 			})
 			.catch((err) => next(err));
+	}
+
+	static checkWeather(req, res, next) {
+		const options = {
+			method: "GET",
+			url: "https://community-open-weather-map.p.rapidapi.com/find",
+			params: {
+				q: "Jakarta",
+			},
+			headers: {
+				"x-rapidapi-key": process.env.WEATHER_API_KEY,
+				"x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
+			},
+		};
+		axios
+			.request(options)
+			.then((response) => {
+				console.log(response);
+				const weatherForecast = response.data.list[0].weather.main;
+				console.log(weatherForecast);
+				res.status(200).json({ success: true, message: weatherForecast });
+			})
+			.catch((err) => {
+				next(err);
+			});
 	}
 }
 module.exports = TodoController;
