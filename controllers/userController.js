@@ -1,4 +1,5 @@
 const { User } = require("../models");
+const { OAuth2Client } = require("google-auth-library");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -36,6 +37,46 @@ class UserController {
 				res.status(200).json({ success: true, access_token });
 			})
 			.catch((err) => next(err));
+	}
+
+	static googleLogin(req, res, next) {
+		const { token } = req.body;
+		const client = new OAuth2Client(process.env.CLIENT_ID);
+		async function verify() {
+			const ticket = await client.verifyIdToken({
+				idToken: token,
+				audience: process.env.CLIENT_ID,
+			});
+			const payload = ticket.getPayload();
+			// console.log(payload);
+			// const userid = payload["sub"];
+			// If request specified a G Suite domain:
+			// const domain = payload['hd'];
+			User.findOne({
+				where: {
+					email: payload.email,
+				},
+			})
+				.then((user) => {
+					if (!user) {
+						User.create({
+							email: payload.email,
+							password: process.env.DEFAULT_PASSWORD,
+						});
+					} else {
+						return user;
+					}
+				})
+				.then((user) => {
+					const access_token = jwt.sign(
+						{ id: user.id },
+						process.env.JWT_SECRET
+					);
+					res.status(200).json({ success: true, access_token });
+				})
+				.catch((err) => next(err));
+		}
+		verify().catch(console.error);
 	}
 }
 
